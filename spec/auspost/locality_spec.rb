@@ -16,10 +16,34 @@ describe Auspost::Locality do
       results.first.should be_a Auspost::Locality
     end
 
-    it 'should return an empty array with an invalid query' do
+    it 'returns an empty array with an invalid query' do
       Auspost::API.stub(:get_json).and_return(SAMPLE_POSTCODE_RESPONSE_NO_RESULTS)
       results = Auspost::Locality.search 'wrong-not-valid'
       results.should eq []
     end
+  end
+
+  describe :initialization do
+    # some sample data to test attributes
+    let(:locality_info) {
+      {
+        'id' => 123,
+        'category' => 'some_category',
+        'latitude' => 123.456,
+        'longitude' => 987.654,
+        'location' => 'some_location',
+        'postcode' => 9999,
+        'state' => 'WA'
+      }
+    }
+
+    subject { Auspost::Locality.new(locality_info) }
+    its(:identifier) { should eq 123 }
+    its(:category) { should eq 'some_category' }
+    its(:latitude) { should eq 123.456 }
+    its(:longitude) { should eq 987.654 }
+    its(:location) { should eq 'some_location' }
+    its(:postcode) { should eq 9999 }
+    its(:state) { should eq 'WA' }
   end
 end
