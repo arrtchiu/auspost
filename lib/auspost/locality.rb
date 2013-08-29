@@ -5,8 +5,8 @@ module Auspost
     # Searches for localities by suburb, town, city, or postcode.
     # Returns an array of `Locality` objects.
     # 
-    def self.search(query)
-      perform_search(query).map do |locality_info|
+    def self.search(query, state = nil, exclude_postbox = false)
+      perform_search(query, state, exclude_postbox).map do |locality_info|
         self.new locality_info
       end
     end
